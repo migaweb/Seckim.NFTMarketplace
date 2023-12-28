@@ -1,5 +1,46 @@
 ﻿@rendermode InteractiveWebAssembly
 
-<h3>NFTList</h3>
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+  @foreach (var nftItem in NFTItems)
+  {
+    <RadzenCard Variant="Variant.Flat" Class="rz-my-12 rz-mx-auto" Style="max-width: 400px">
+      <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+        <a href="@nftItem.TokenURI" target="_blank">
+          <RadzenImage Path="@nftItem.TokenURI" Style="width: 100%; height: 100%;" />
+        </a>
+        <RadzenStack Gap="20" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceAround">
+          
+          <RadzenStack Orientation="Orientation.Vertical" Gap="2">
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(nftItem.Name)</b></RadzenText>
+          </RadzenStack>
 
+          <RadzenStack Orientation="Orientation.Vertical" Gap="2">
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-mb-0">Id</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@nftItem.TokenId</b></RadzenText>
+          </RadzenStack>
 
+          <RadzenStack Orientation="Orientation.Vertical" Gap="2">
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-mb-0">Price</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@nftItem.Price</b> ETH</RadzenText>
+          </RadzenStack>
+          
+        </RadzenStack>
+      </RadzenStack>
+      <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceAround" Gap="1rem" Class="rz-p-4">
+        <RadzenStack Gap="2" Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start">
+          <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-mb-0">Owner</RadzenText>
+          <RadzenText title="@nftItem.Owner" TextStyle="TextStyle.Body1"><b>@(Application.Helpers.StringHelpers.ShortenAddress(nftItem.Owner))</b></RadzenText>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal">
+          <RadzenButton Icon="euro_symbol"
+                        Text="Buy"
+                        ButtonStyle="ButtonStyle.Primary"
+                        
+                        class="rz-ripple" />
+        </RadzenStack>
+      </RadzenStack>
+    </RadzenCard>
+  }
+
+</RadzenStack>

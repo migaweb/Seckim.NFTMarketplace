@@ -21,6 +21,8 @@ public class WalletStateProvider : IDisposable
     _onWalletUpdated += WalletUpdated;
   }
 
+  public bool IsConnected => _state == WalletState.Connected;
+
   public async Task ConnectWallet()
   {
     _state = WalletState.Connecting;
