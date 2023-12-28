@@ -1,0 +1,26 @@
+﻿@using Seckim.NFTMarketplace.App.Application.Model
+@rendermode InteractiveWebAssembly
+
+@inject IJSRuntime JS
+
+<div class="account-info">
+
+  @if (WalletStateProvider.WalletState == Application.Enums.WalletState.Connecting)
+  {
+    <div>🟡 Connecting ...</div>
+  }
+  else if (WalletStateProvider.WalletState == Application.Enums.WalletState.Connected)
+  {
+    <div>🟢 Connected</div>
+  }
+  else
+  {
+    <div title="Click to connect to wallet" @onclick="ConnectWallet" style="cursor:pointer">🔴 Not connected</div>
+  }
+
+  @if(Account != null && !string.IsNullOrEmpty(Account.Account))
+  {
+    <div title="@Account.Account">Address: @(Application.Helpers.StringHelpers.ShortenAddress(Account.Account))</div>
+    <div>Balance: @Account.Balance ETH</div>
+  }
+</div>
