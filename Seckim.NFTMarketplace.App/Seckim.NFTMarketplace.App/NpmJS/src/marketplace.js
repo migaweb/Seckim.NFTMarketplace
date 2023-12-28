@@ -25,6 +25,33 @@ export async function connectWallet() {
   return accountInfo;
 }
 
+export async function fetchAllMarketItems() {
+  const { nftContract, marketPlaceContract } = await getContracts();
+  let currentId = await nftContract.getCurrentToken();
+  let currentTokenId = BigInt(currentId);
+  console.log('currentTokenId: ' + currentTokenId);
+  let tokens = [];
+  for (let i = 1; i <= currentTokenId; i++) {
+    const token = await marketPlaceContract.getTokenForId(i);
+    tokens = [...tokens, token];
+  }
+
+  return await Promise.all(tokens.map(async token => {
+    let price = ethers.formatUnits(token.price.toString(), 'ether');
+    let item = {
+      price,
+      tokenId: token.tokenId.toString(),
+      seller: token.seller,
+      owner: token.owner,
+      name: token.name,
+      tokenURI: token.tokenURI,
+      isListed: token.isListed
+    };
+
+    return item;
+  }));
+}
+
 export async function mintNFT(uri) {
 
   const { nftContract } = await getContracts(); 

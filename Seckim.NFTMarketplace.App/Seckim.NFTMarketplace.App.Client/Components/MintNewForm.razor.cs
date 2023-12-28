@@ -43,6 +43,7 @@ public partial class MintNewForm : ComponentBase, IDisposable
     var result = await IJSRuntime.InvokeAsync<MintNFTResult>("mintNFT", Model.Uri);
 
     BusyOverlayService.SetBusy(Constants.ListingProgressMessage);
+
     await IJSRuntime.InvokeAsync<ListNFTResult>("listNFT", result.TokenId, Model.Name, Model.Uri);
 
     BusyOverlayService.SetNotBusy();
