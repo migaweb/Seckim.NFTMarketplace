@@ -3,4 +3,5 @@ public static class Constants
 {
   public const string DefaulltProgressMessage = "Wait ...";
   public const string MintingProgressMessage = "Minting ...";
+  public const string ListingProgressMessage = "Listing ...";
 }

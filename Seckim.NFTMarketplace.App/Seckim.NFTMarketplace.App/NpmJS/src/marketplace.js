@@ -25,6 +25,59 @@ export async function connectWallet() {
   return accountInfo;
 }
 
+export async function mintNFT(uri) {
+
+  const { nftContract } = await getContracts(); 
+
+  console.log(nftContract);
+
+  const currentId = await nftContract.getCurrentToken();
+  const tokenId = BigInt(currentId);
+  await nftContract.mint(uri);
+
+  console.log("Minted NFT #" + tokenId);
+
+  const strtokenId = tokenId.toString();
+
+  return { tokenId: strtokenId };
+}
+
+export async function listNFT(tokenId, name, tokenUri) {
+
+  const { marketPlaceContract } = await getContracts();
+
+  console.log('listing NFT: tokenId=' + tokenId + ', name=' + name + ', tokenUri=' + tokenUri);
+
+  const listingPrice = ethers.parseUnits('0.0001', 'ether');
+
+  console.log('listingPrice: ' + listingPrice);
+
+  const transaction = await marketPlaceContract.listNFT(
+    NFTAddress,
+    tokenId,
+    name,
+    tokenUri,
+    { gasLimit: 3000000, value: listingPrice.toString() }
+  );
+
+  await transaction.wait();
+
+  return { transaction: JSON.stringify(transaction) };
+}
+
+async function getContracts() {
+  const signer = await provider.getSigner();
+  const marketPlaceContract = new ethers.Contract(MKTAddress, MarketplaceJson.abi, signer);
+  const nftContract = new ethers.Contract(NFTAddress, NftJson.abi, signer);
+
+  console.log('NFT Contract getContracts: ' + nftContract);
+
+  return {
+    marketPlaceContract,
+    nftContract
+  }
+}
+
 async function getAccountInfo() {
   const signer = await provider.getSigner();
 

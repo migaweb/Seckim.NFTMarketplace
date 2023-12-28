@@ -1,5 +1,13 @@
 ﻿@rendermode InteractiveWebAssembly
 
+@if (WalletStateProvider.WalletState != Application.Enums.WalletState.Connected)
+{
+  <RadzenText TextStyle="TextStyle.H6" class="rz-color-on-primary-light">
+    <strong>Please connect your wallet to mint a new NFT.</strong>
+  </RadzenText>
+}
+else
+{
 <EditForm Model="Model" OnValidSubmit="OnValidSubmit">
   <DataAnnotationsValidator />
   <RadzenCard class=" rz-shadow-0 rz-border-radius-0 rz-p-8">
@@ -59,3 +67,4 @@
     
   </RadzenCard>
 </EditForm>
+}
