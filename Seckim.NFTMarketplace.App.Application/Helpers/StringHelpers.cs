@@ -6,8 +6,12 @@ public static class StringHelpers
   /// </summary>
   /// <param name="address">The address string to be shortened.</param>
   /// <returns>The shortened address string.</returns>
-  public static string ShortenAddress(string address)
+  public static string ShortenAddress(string? address)
   {
+    if (string.IsNullOrEmpty(address))
+    {
+      return string.Empty;
+    }
     if (address.Length < 10)
     {
       return address;

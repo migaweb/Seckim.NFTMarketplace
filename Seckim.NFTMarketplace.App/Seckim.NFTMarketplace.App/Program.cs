@@ -1,5 +1,6 @@
 using Seckim.NFTMarketplace.App.Components;
 using Seckim.NFTMarketplace.App.Application.Configuration;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.ConfigureApplication();
+
+builder.Services.AddRadzenComponents();
 
 var app = builder.Build();
 

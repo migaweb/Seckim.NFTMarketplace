@@ -34,4 +34,5 @@ To enable the npm build script, add the following pre-build events to the `cspro
 
 ## Dependencies and licenses
 1. [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
-2. [ethers](https://docs.ethers.org/v6/) - [MIT](https://docs.ethers.org/v6/license/) 
+2. [Radzen](https://blazor.radzen.com/) - [MIT](https://github.com/radzenhq/radzen-blazor/blob/master/LICENSE)
+3. [ethers](https://docs.ethers.org/v6/) - [MIT](https://docs.ethers.org/v6/license/) 

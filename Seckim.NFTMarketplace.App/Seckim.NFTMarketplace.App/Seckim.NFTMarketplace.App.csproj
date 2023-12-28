@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Seckim.NFTMarketplace.App.Client\Seckim.NFTMarketplace.App.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.23.4" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

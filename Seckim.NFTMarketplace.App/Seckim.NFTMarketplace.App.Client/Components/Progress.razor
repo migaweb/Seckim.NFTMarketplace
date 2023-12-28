@@ -1,0 +1,10 @@
+﻿@rendermode InteractiveWebAssembly
+
+<div class="overlay" style="@(IsBusy ? "display:flex" : "display:none")">
+<RadzenProgressBarCircular ShowValue="true" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Large">
+  <Template>
+      <RadzenText TextStyle="TextStyle.Body1">@BusyOverlayService.ProgressMessage</RadzenText>
+  </Template>
+</RadzenProgressBarCircular>
+</div>
+

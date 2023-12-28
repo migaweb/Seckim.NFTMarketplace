@@ -1,0 +1,61 @@
+﻿@rendermode InteractiveWebAssembly
+
+<EditForm Model="Model" OnValidSubmit="OnValidSubmit">
+  <DataAnnotationsValidator />
+  <RadzenCard class=" rz-shadow-0 rz-border-radius-0 rz-p-8">
+    <RadzenText TextStyle="TextStyle.H6" class="rz-color-on-primary-light"><strong>Mint new NFT</strong></RadzenText>
+    <RadzenRow RowGap="0">
+      <RadzenColumn SizeSM="8">
+        <RadzenFieldset Text="NFT information">
+          <RadzenStack Gap="1rem">
+            <RadzenRow AlignItems="AlignItems.Center">
+              <RadzenColumn Size="12" SizeMD="3">
+                <RadzenLabel Text="Name" Component="Name" />
+              </RadzenColumn>
+              <RadzenColumn Size="12" SizeMD="9">
+                <RadzenTextBox @bind-Value="Model.Name" Placeholder="Name" Style="width: 100%;" Name="Name" />
+              </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow AlignItems="AlignItems.Center">
+              <RadzenColumn Size="12" SizeMD="3">
+                <RadzenLabel Text="URI" Component="Uri" />
+              </RadzenColumn>
+              <RadzenColumn Size="12" SizeMD="9">
+                <RadzenTextBox @bind-Value="Model.Uri" 
+                               Placeholder="http://images.com/009203909" 
+                               Style="width: 100%;" 
+                               Name="Uri" 
+                               @onblur="@(_ => StateHasChanged())"
+                               />
+              </RadzenColumn>
+            </RadzenRow>
+          </RadzenStack>
+        </RadzenFieldset>
+        <RadzenRow Class="rz-mt-5" JustifyContent="JustifyContent.End">
+          <RadzenStack JustifyContent="JustifyContent.End" Orientation="Orientation.Horizontal">
+            <RadzenButton Icon="warning"
+                          Text="Cancel"
+                          ButtonStyle="ButtonStyle.Secondary"
+                          ButtonType="ButtonType.Button"
+                          Click=@(args => CancelMinting())
+                          class="rz-ripple" />
+            <RadzenButton Icon="gavel"
+                          Text="Mint"
+                          ButtonStyle="ButtonStyle.Primary"
+                          ButtonType="ButtonType.Submit"
+                          class="rz-ripple" />
+          </RadzenStack>
+        </RadzenRow>
+      </RadzenColumn>
+      <RadzenColumn SizeSM="4">
+        <RadzenFieldset Text="Preview">
+          <RadzenStack AlignItems="AlignItems.Center">
+            <RadzenImage Path="@Model.Uri" Style="width: 15rem;" AlternateText="community" />
+          </RadzenStack>
+        </RadzenFieldset>
+      </RadzenColumn>
+    </RadzenRow>
+    
+    
+  </RadzenCard>
+</EditForm>

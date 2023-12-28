@@ -1,0 +1,15 @@
+﻿@rendermode InteractiveWebAssembly
+@inject NavigationManager NavigationManager
+
+<RadzenButton Icon="gavel"
+              Text="Mint new NFT ..."
+              ButtonStyle="ButtonStyle.Primary"
+              Click=@(args => OnClick())
+              class="rz-ripple" />
+
+@code {
+  private void OnClick()
+  {
+    NavigationManager.NavigateTo("/mint");
+  }
+}
