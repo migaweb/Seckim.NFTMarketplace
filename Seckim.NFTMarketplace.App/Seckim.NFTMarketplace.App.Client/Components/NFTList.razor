@@ -1,10 +1,16 @@
 ﻿@rendermode InteractiveWebAssembly
 
-<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
-  @foreach (var nftItem in NFTItems)
+<RadzenStack Class="rz-mx-auto" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+  <RadzenLabel Style="color:#fff;" Text="My NFTs" Component="UsersNFTs" />
+  <RadzenSwitch @bind-Value="@displayCurrentUsersNFTsOnly" Name="UsersNFTs" />
+</RadzenStack>
+
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem">
+  
+  @foreach (var nftItem in NFTItems.Where(e => !displayCurrentUsersNFTsOnly || e.Owner == WalletStateProvider.WalletAccount?.Account))
   {
     <RadzenCard Variant="Variant.Flat" Class="rz-my-12 rz-mx-auto" Style="max-width: 400px">
-      <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+      <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start" Gap="1rem">
         <a href="@nftItem.TokenURI" target="_blank">
           <RadzenImage Path="@nftItem.TokenURI" Style="width: 100%; height: 100%;" />
         </a>
@@ -33,11 +39,21 @@
           <RadzenText title="@nftItem.Owner" TextStyle="TextStyle.Body1"><b>@(Application.Helpers.StringHelpers.ShortenAddress(nftItem.Owner))</b></RadzenText>
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Horizontal">
-          <RadzenButton Icon="euro_symbol"
-                        Text="Buy"
-                        ButtonStyle="ButtonStyle.Primary"
-                        
-                        class="rz-ripple" />
+          @if(nftItem.Owner == Application.Constants.Constants.MarketPlaceContractAddress) {
+            <RadzenButton Icon="euro_symbol"
+                          Text="Buy"
+                          ButtonStyle="ButtonStyle.Primary"
+                          Click="@(() => BuyNFT(nftItem))"
+            class="rz-ripple" />
+          }
+          else if (nftItem.Owner == WalletStateProvider.WalletAccount?.Account)
+          {
+            <RadzenButton Icon="euro_symbol"
+                          Text="Sell"
+                          ButtonStyle="ButtonStyle.Primary"
+                          Click="@(() => SellNFT(nftItem))"
+                          class="rz-ripple" />
+          }
         </RadzenStack>
       </RadzenStack>
     </RadzenCard>

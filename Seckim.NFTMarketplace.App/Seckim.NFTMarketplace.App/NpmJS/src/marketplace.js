@@ -11,6 +11,22 @@ const balanceInEth = (balance) => {
   return array[0].concat(`.${decimals}`)
 }
 
+export async function getMarketplaceStats() {
+  const { marketPlaceContract } = await getContracts();
+
+  const totalItems = await marketPlaceContract.getItemsCount();
+  const itemsSold = await marketPlaceContract.getItemsSold();
+  const marketplaceBalance = await marketPlaceContract.getMarketPlaceBalance();
+  const listingFee = await marketPlaceContract.getListingFee();
+
+  return {
+    totalItems: totalItems.toString(),
+    itemsSold: itemsSold.toString(),
+    marketplaceBalance: ethers.formatEther(marketplaceBalance.toString()),
+    listingFee: ethers.formatEther(listingFee.toString())
+  }
+}
+
 export async function connectWallet() {
   
   let accountInfo = await getAccountInfo();
@@ -23,6 +39,37 @@ export async function connectWallet() {
   }
 
   return accountInfo;
+}
+
+export async function buyNFT(tokenId) {
+  const { marketPlaceContract } = await getContracts();
+  const price = ethers.parseUnits('0.0001', 'ether');
+  const transaction = await marketPlaceContract.buyNFT(
+    NFTAddress,
+    tokenId,
+    { gasLimit: 3000000, value: price.toString() }
+  );
+
+  await transaction.wait();
+
+  return { transaction: JSON.stringify(transaction) };
+}
+
+export async function resellNFT(tokenId) {
+  const { nftContract, marketPlaceContract } = await getContracts();
+  const price = ethers.parseUnits('0.0001', 'ether');
+
+  await nftContract.approve(MKTAddress, tokenId);
+
+  const transaction = await marketPlaceContract.resellNFT(
+    NFTAddress,
+    tokenId,
+    { gasLimit: 3000000, value: price.toString() }
+  );
+
+  await transaction.wait();
+
+  return { transaction: JSON.stringify(transaction) };
 }
 
 export async function fetchAllMarketItems() {
