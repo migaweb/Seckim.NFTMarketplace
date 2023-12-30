@@ -10,30 +10,17 @@ public partial class NFTList : ComponentBase, IDisposable
   [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
   [Inject] private WalletStateProvider WalletStateProvider { get; set; } = null!;
   [Inject] private BusyOverlayService BusyOverlayService { get; set; } = null!;
+  [Inject] private MarketplaceStateProvider MarketplaceStateProvider { get; set; } = null!;
 
   public List<NFTItem> NFTItems { get; set; } = [];
 
-  private bool displayCurrentUsersNFTsOnly = false;
+  private bool _displayCurrentUsersNFTsOnly = false;
 
   protected override void OnInitialized()
   {
     WalletStateProvider.OnChange += OnWalletConnectedChange;
+    MarketplaceStateProvider.OnChange += StateHasChanged;
     base.OnInitialized();
-  }
-
-  // TODO: Create state provider for NFTItems
-
-  protected override async Task OnAfterRenderAsync(bool firstRender)
-  {
-    if (firstRender)
-    {
-      if (WalletStateProvider.IsConnected)
-      {
-        NFTItems = await JSRuntime.InvokeAsync<List<NFTItem>>("fetchAllMarketItems");
-        await JSRuntime.InvokeAsync<MarketplaceStats>("getMarketplaceStats");
-        StateHasChanged();
-      }
-    }
   }
 
   private async Task SellNFT(NFTItem item)
@@ -41,10 +28,7 @@ public partial class NFTList : ComponentBase, IDisposable
     try
     {
       BusyOverlayService.SetBusy("Selling ...");
-      await JSRuntime.InvokeVoidAsync("resellNFT", item.TokenId);
-      BusyOverlayService.SetNotBusy();
-
-      NFTItems = await JSRuntime.InvokeAsync<List<NFTItem>>("fetchAllMarketItems");
+      await MarketplaceStateProvider.SellNFT(item);
     }
     catch (Exception ex)
     {
@@ -61,10 +45,7 @@ public partial class NFTList : ComponentBase, IDisposable
     try
     {
       BusyOverlayService.SetBusy("Buying ...");
-      await JSRuntime.InvokeVoidAsync("buyNFT", item.TokenId);
-      BusyOverlayService.SetNotBusy();
-
-      NFTItems = await JSRuntime.InvokeAsync<List<NFTItem>>("fetchAllMarketItems");
+      await MarketplaceStateProvider.BuyNFT(item);
     } 
     catch (Exception ex)
     {
@@ -80,9 +61,7 @@ public partial class NFTList : ComponentBase, IDisposable
   {
     if (WalletStateProvider.IsConnected)
     {
-      NFTItems = await JSRuntime.InvokeAsync<List<NFTItem>>("fetchAllMarketItems");
-      Console.WriteLine(NFTItems.Count);
-      await JSRuntime.InvokeAsync<MarketplaceStats>("getMarketplaceStats");
+      await MarketplaceStateProvider.Init();
     }
     StateHasChanged();
   }
@@ -90,5 +69,6 @@ public partial class NFTList : ComponentBase, IDisposable
   public void Dispose()
   {
     WalletStateProvider.OnChange -= OnWalletConnectedChange;
+    MarketplaceStateProvider.OnChange -= StateHasChanged;
   }
 }

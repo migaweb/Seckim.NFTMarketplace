@@ -2,12 +2,12 @@
 
 <RadzenStack Class="rz-mx-auto" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
   <RadzenLabel Style="color:#fff;" Text="My NFTs" Component="UsersNFTs" />
-  <RadzenSwitch @bind-Value="@displayCurrentUsersNFTsOnly" Name="UsersNFTs" />
+  <RadzenSwitch @bind-Value="@_displayCurrentUsersNFTsOnly" Name="UsersNFTs" />
 </RadzenStack>
 
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem">
   
-  @foreach (var nftItem in NFTItems.Where(e => !displayCurrentUsersNFTsOnly || e.Owner == WalletStateProvider.WalletAccount?.Account))
+  @foreach (var nftItem in MarketplaceStateProvider.NFTItems.Where(e => !_displayCurrentUsersNFTsOnly || e.Owner == WalletStateProvider.WalletAccount?.Account))
   {
     <RadzenCard Variant="Variant.Flat" Class="rz-my-12 rz-mx-auto" Style="max-width: 400px">
       <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start" Gap="1rem">

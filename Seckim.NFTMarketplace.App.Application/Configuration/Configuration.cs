@@ -7,6 +7,7 @@ public static class Configuration
   public static IServiceCollection ConfigureApplication(this IServiceCollection services)
   {
     services.AddScoped<WalletStateProvider>();
+    services.AddScoped<MarketplaceStateProvider>();
     services.AddScoped<BusyOverlayService>();
 
     return services;
