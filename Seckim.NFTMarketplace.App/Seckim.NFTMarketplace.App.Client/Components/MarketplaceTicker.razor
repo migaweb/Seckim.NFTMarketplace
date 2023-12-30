@@ -1,3 +1,35 @@
-﻿<h3>MarketplaceTicker</h3>
+﻿@rendermode InteractiveWebAssembly
+
+<RadzenRow class="rz-text-align-left" Gap="1rem">
+  <RadzenColumn Size="2" SizeXS="2" SizeSM="8" SizeMD="9" SizeLG="12" SizeXL="12" SizeXX="12">
+    <RadzenBadge Variant="Variant.Outlined"
+                 BadgeStyle="BadgeStyle.Light"
+                 IsPill="true"
+                 Text=""
+                 class="rz-ml-2">
+      Total NFTs: <b>@MarketplaceStateProvider.MarketplaceStats.TotalItems</b>
+               </RadzenBadge>
+    <RadzenBadge Variant="Variant.Outlined"
+                 BadgeStyle="BadgeStyle.Light"
+                 IsPill="true"
+                 class="rz-ml-2">
+      Sold items: <b>@MarketplaceStateProvider.MarketplaceStats.ItemsSold</b>
+                </RadzenBadge>
+    <RadzenBadge Variant="Variant.Outlined"
+                 BadgeStyle="BadgeStyle.Light"
+                 IsPill="true"
+                 class="rz-ml-2">
+      Market balance: <b>@MarketplaceStateProvider.MarketplaceStats.MarketplaceBalance ETH</b>
+    </RadzenBadge>
+    <RadzenBadge Variant="Variant.Outlined"
+                 BadgeStyle="BadgeStyle.Light"
+                 IsPill="true"
+                 class="rz-ml-2">
+      Listing fee: <b>@MarketplaceStateProvider.MarketplaceStats.ListingFee ETH</b>
+               </RadzenBadge>
+  </RadzenColumn>
+</RadzenRow>
+
+
 
 

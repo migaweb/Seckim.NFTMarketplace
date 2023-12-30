@@ -14,10 +14,10 @@ public class MarketplaceStateProvider(IJSRuntime jSRuntime)
 
   public async Task Init()
   {
-    if (MarketplaceStats == null)
+    if (_marketplaceStats == null)
       await FetchMarketplaceStats();
 
-    if (NFTItems.Count == 0)
+    if (_nftItems.Count == 0)
       await FetchAllMarketItems();
   }
 
