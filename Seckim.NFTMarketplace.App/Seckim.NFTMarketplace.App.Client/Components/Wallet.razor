@@ -1,21 +1,28 @@
 ﻿@using Seckim.NFTMarketplace.App.Application.Model
 @rendermode InteractiveWebAssembly
 
-@inject IJSRuntime JS
-
 <RadzenProfileMenu Style="border:none">
   <Template>
     @if (WalletStateProvider.WalletState == Application.Enums.WalletState.Connecting)
     {
-      <div>🟡 Connecting ...</div>
+      <RadzenStack Orientation="Orientation.Horizontal" Gap="4" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+        <RadzenIcon title="Wallet" Icon="cloud" IconStyle="IconStyle.Warning"></RadzenIcon>
+      </RadzenStack>
     }
     else if (WalletStateProvider.WalletState == Application.Enums.WalletState.Connected)
     {
-      <div>🟢 Wallet</div>
+      <RadzenStack Orientation="Orientation.Horizontal" Gap="4" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+        <RadzenIcon title="Wallet" Icon="cloud" IconStyle="IconStyle.Success"></RadzenIcon>
+      </RadzenStack>
     }
     else
     {
-      <div title="Click to connect to wallet" @onclick="ConnectWallet" style="cursor:pointer">🔴 Not connected</div>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="4" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+          <RadzenIcon Icon="cloud_off" 
+                      IconStyle="IconStyle.Danger" 
+                      @onclick="ConnectWallet"
+                      title="Click to connect to wallet"></RadzenIcon>
+        </RadzenStack>
     }
   </Template>
   <ChildContent>
