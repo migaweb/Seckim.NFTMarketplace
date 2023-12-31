@@ -5,11 +5,12 @@
   <RadzenSwitch @bind-Value="@_displayCurrentUsersNFTsOnly" Name="UsersNFTs" />
 </RadzenStack>
 
-<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem">
+<RadzenRow class="rz-text-align-center rz-my-3" Gap="1rem">
   
   @foreach (var nftItem in MarketplaceStateProvider.NFTItems.Where(e => !_displayCurrentUsersNFTsOnly || e.Owner == WalletStateProvider.WalletAccount?.Account))
   {
-    <RadzenCard Variant="Variant.Flat" Class="rz-my-12 rz-mx-auto" Style="max-width: 400px">
+    <RadzenColumn>
+    <RadzenCard Variant="Variant.Flat" Class="rz-mx-auto" Style="max-width: 400px">
       <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start" Gap="1rem">
         <a href="@nftItem.TokenURI" target="_blank">
           <RadzenImage Path="@nftItem.TokenURI" Style="width: 100%; height: 100%;" />
@@ -57,6 +58,6 @@
         </RadzenStack>
       </RadzenStack>
     </RadzenCard>
+    </RadzenColumn>
   }
-
-</RadzenStack>
+</RadzenRow>

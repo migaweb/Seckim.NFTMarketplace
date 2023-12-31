@@ -18,8 +18,8 @@ public partial class NFTList : ComponentBase, IDisposable
 
   protected override void OnInitialized()
   {
-    WalletStateProvider.OnChange += OnWalletConnectedChange;
     MarketplaceStateProvider.OnChange += StateHasChanged;
+    WalletStateProvider.OnChange += OnWalletConnectedChange;
     base.OnInitialized();
   }
 
@@ -59,16 +59,13 @@ public partial class NFTList : ComponentBase, IDisposable
 
   private async Task OnWalletConnectedChange(WalletAccount? account)
   {
-    if (WalletStateProvider.IsConnected)
-    {
-      await MarketplaceStateProvider.Init();
-    }
+    await Task.CompletedTask;
     StateHasChanged();
   }
 
   public void Dispose()
   {
-    WalletStateProvider.OnChange -= OnWalletConnectedChange;
     MarketplaceStateProvider.OnChange -= StateHasChanged;
+    WalletStateProvider.OnChange -= OnWalletConnectedChange;
   }
 }
