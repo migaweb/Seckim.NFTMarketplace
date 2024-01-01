@@ -11,6 +11,7 @@ public partial class MintNewForm : ComponentBase, IDisposable
   [Inject] private NavigationManager NavigationManager { get; set; } = null!;
   [Inject] private BusyOverlayService BusyOverlayService { get; set; } = null!;
   [Inject] private WalletStateProvider WalletStateProvider { get; set; } = null!;
+  [Inject] private MarketplaceStateProvider MarketplaceStateProvider { get; set; } = null!;
   [Inject] private IJSRuntime IJSRuntime { get; set; } = null!;
   public NewNFTModel Model { get; set; } = new() { Name = "One", Uri = "https://bronze-rapid-coyote-625.mypinata.cloud/ipfs/bafybeigkpyg3wub5e6tngf4pm2yk4pltp6e4amq52p6lbjkyu67vmthraq" };
 
@@ -43,8 +44,10 @@ public partial class MintNewForm : ComponentBase, IDisposable
     var result = await IJSRuntime.InvokeAsync<MintNFTResult>("mintNFT", Model.Uri);
 
     BusyOverlayService.SetBusy(Constants.ListingProgressMessage);
-
     await IJSRuntime.InvokeAsync<ListNFTResult>("listNFT", result.TokenId, Model.Name, Model.Uri);
+
+    BusyOverlayService.SetBusy(Constants.MarketUpdateProgressMessage);
+    await MarketplaceStateProvider.Refresh();
 
     BusyOverlayService.SetNotBusy();
 

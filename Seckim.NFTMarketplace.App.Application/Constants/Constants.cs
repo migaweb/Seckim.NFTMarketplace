@@ -4,6 +4,7 @@ public static class Constants
   public const string DefaulltProgressMessage = "Wait ...";
   public const string MintingProgressMessage = "Minting ...";
   public const string ListingProgressMessage = "Listing ...";
+  public const string MarketUpdateProgressMessage = "Adding ...";
 
-  public const string MarketPlaceContractAddress = "0x2F0A94cC2d857c5260505a6D0f65F586D8187D4f";
+  public const string MarketPlaceContractAddress = "0xCb37074255B46550348c24c77552B0149Ba42AE3";
 }

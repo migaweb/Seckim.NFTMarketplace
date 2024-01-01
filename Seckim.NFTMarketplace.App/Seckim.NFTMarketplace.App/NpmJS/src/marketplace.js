@@ -76,8 +76,8 @@ export async function fetchAllMarketItems() {
   const { nftContract, marketPlaceContract } = await getContracts();
   let currentId = await nftContract.getCurrentToken();
   let currentTokenId = BigInt(currentId);
-  console.log('currentTokenId: ' + currentTokenId);
   let tokens = [];
+
   for (let i = 1; i <= currentTokenId; i++) {
     const token = await marketPlaceContract.getTokenForId(i);
     tokens = [...tokens, token];
@@ -103,16 +103,15 @@ export async function mintNFT(uri) {
 
   const { nftContract } = await getContracts(); 
 
-  console.log(nftContract);
+  let transaction = await nftContract.mint(uri);
+
+  await transaction.wait();
 
   const currentId = await nftContract.getCurrentToken();
   const tokenId = BigInt(currentId);
-  await nftContract.mint(uri);
-
-  console.log("Minted NFT #" + tokenId);
 
   const strtokenId = tokenId.toString();
-
+  
   return { tokenId: strtokenId };
 }
 
@@ -120,11 +119,7 @@ export async function listNFT(tokenId, name, tokenUri) {
 
   const { marketPlaceContract } = await getContracts();
 
-  console.log('listing NFT: tokenId=' + tokenId + ', name=' + name + ', tokenUri=' + tokenUri);
-
   const listingPrice = ethers.parseUnits('0.0001', 'ether');
-
-  console.log('listingPrice: ' + listingPrice);
 
   const transaction = await marketPlaceContract.listNFT(
     NFTAddress,
@@ -141,6 +136,19 @@ export async function listNFT(tokenId, name, tokenUri) {
 
 async function getContracts() {
   const signer = await provider.getSigner();
+  const marketPlaceContract = new ethers.Contract(MKTAddress, MarketplaceJson.abi, signer);
+  const nftContract = new ethers.Contract(NFTAddress, NftJson.abi, signer);
+
+  console.log('NFT Contract getContracts: ' + nftContract);
+
+  return {
+    marketPlaceContract,
+    nftContract
+  }
+}
+
+async function getAdminContracts() {
+  const signer = new ethers.Wallet(AdminAddress, provider);
   const marketPlaceContract = new ethers.Contract(MKTAddress, MarketplaceJson.abi, signer);
   const nftContract = new ethers.Contract(NFTAddress, NftJson.abi, signer);
 

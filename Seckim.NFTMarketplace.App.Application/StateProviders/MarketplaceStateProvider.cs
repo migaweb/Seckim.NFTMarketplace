@@ -21,6 +21,12 @@ public class MarketplaceStateProvider(IJSRuntime jSRuntime)
       await FetchAllMarketItems();
   }
 
+  public async Task Refresh()
+  {
+    await FetchMarketplaceStats();
+    await FetchAllMarketItems();
+  }
+
   public async Task FetchMarketplaceStats()
   {
     MarketplaceStats = await _jSRuntime.InvokeAsync<MarketplaceStats>("getMarketplaceStats");
